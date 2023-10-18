@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: aidemo
+
+resources:
+- serviceaccount.yaml
+- namespace.yaml
+- persistentvolumeclaim.yaml
+- service.yaml
+- deployment.yaml
+# - Todo: Ingress???
+- clusterrolebinding.yaml
+- clusterrole.yaml
+

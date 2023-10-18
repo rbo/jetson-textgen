@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpaca
+  namespace: aidemo
+  labels:
+    app: alpaca
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alpaca
+  template:
+    metadata:
+      labels:
+        app: alpaca
+    spec:
+      serviceAccountName: privileged
+      containers:
+      - name: alpaca
+        image: quay.io/hgeaydem/ubi9-llm-textgen-jetson
+        imagePullPolicy: Always
+        ports:
+         - containerPort: 7860
+        securityContext:
+          privileged: true
+        volumeMounts:
+          - mountPath: "/opt/text-generation-webui/models"
+            name: "aimodels"
+      volumes:
+      - name: "aimodels"
+        persistentVolumeClaim:
+          claimName: "aimodels-pvc"
